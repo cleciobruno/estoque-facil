@@ -91,7 +91,6 @@ Erros retornam JSON no formato `{ "erro": "mensagem" }` com status 400 (dados in
 
 - [Diagrama de classes](docs/diagrama-classes.md)
 - [Roteiro de testes](docs/roteiro-testes.md)
-- [Onde cada critério de avaliação aparece no código](docs/mapa-barema.md)
 
 ## Integrantes
 

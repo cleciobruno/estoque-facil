@@ -1,0 +1,2 @@
+from .movimentacao_repository import MovimentacaoRepository
+from .produto_repository import ProdutoRepository

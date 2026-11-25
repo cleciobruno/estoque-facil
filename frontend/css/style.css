@@ -190,4 +190,5 @@ input.invalido { border-color: var(--cor-erro); }
   .campo-duplo { grid-template-columns: 1fr; gap: 0; }
   .produto { grid-template-columns: 1fr; }
   .produto__precos { text-align: left; }
+  .filtros, .filtros input[type="search"], .filtros select { width: 100%; }
 }

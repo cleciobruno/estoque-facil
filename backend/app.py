@@ -1,9 +1,10 @@
 from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
+from werkzeug.exceptions import HTTPException
 
 from database import Database
-from models import ValidacaoError
+from models import ErroDominio, ValidacaoError
 from repositories import MovimentacaoRepository, ProdutoRepository
 from services import EstoqueService
 
@@ -22,6 +23,18 @@ def criar_app(caminho_banco=PASTA_BACKEND / "estoque.db"):
         if not isinstance(dados, dict):
             raise ValidacaoError("Envie um corpo JSON válido.")
         return dados
+
+    # ---------- tratamento de erros ----------
+    @app.errorhandler(ErroDominio)
+    def erro_dominio(erro):
+        return jsonify({"erro": str(erro)}), erro.status_http
+
+    @app.errorhandler(Exception)
+    def erro_inesperado(erro):
+        if isinstance(erro, HTTPException):
+            return jsonify({"erro": erro.description}), erro.code
+        app.logger.exception(erro)
+        return jsonify({"erro": "Erro interno no servidor."}), 500
 
     # ---------- produtos ----------
     @app.get("/api/produtos")
@@ -45,6 +58,17 @@ def criar_app(caminho_banco=PASTA_BACKEND / "estoque.db"):
     def remover(id):
         service.remover(id)
         return "", 204
+
+    # ---------- movimentações ----------
+    @app.post("/api/produtos/<int:id>/movimentacoes")
+    def movimentar(id):
+        dados = corpo_json()
+        produto = service.movimentar(id, dados.get("tipo"), dados.get("quantidade"))
+        return jsonify(produto.to_dict()), 201
+
+    @app.get("/api/produtos/<int:id>/movimentacoes")
+    def historico(id):
+        return jsonify([m.to_dict() for m in service.historico(id)])
 
     # ---------- front-end ----------
     @app.get("/")

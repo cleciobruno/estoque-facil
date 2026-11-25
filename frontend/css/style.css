@@ -16,6 +16,8 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+[hidden] { display: none !important; }
+
 body {
   font-family: "Inter", system-ui, sans-serif;
   background: var(--cor-fundo);
@@ -78,7 +80,8 @@ h2 { font-size: 1.1rem; margin-bottom: var(--espaco); }
 }
 .layout .painel { margin-bottom: 0; }
 
-.campo { display: flex; flex-direction: column; margin-bottom: 0.9rem; }
+.campo { display: flex; flex-direction: column; margin-bottom: 0.9rem; min-width: 0; }
+.campo input, .campo select { width: 100%; }
 .campo-duplo { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
 
@@ -175,3 +178,16 @@ input.invalido { border-color: var(--cor-erro); }
 .saida { color: var(--cor-erro); font-weight: 600; }
 
 .rodape { text-align: center; color: var(--cor-texto-suave); font-size: 0.85rem; padding: 1.5rem 0; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .resumo { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .resumo { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .cartao-resumo p { font-size: 1.25rem; }
+  .campo-duplo { grid-template-columns: 1fr; gap: 0; }
+  .produto { grid-template-columns: 1fr; }
+  .produto__precos { text-align: left; }
+}

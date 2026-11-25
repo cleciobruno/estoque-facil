@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0 -- /home/cleciobruno/.conda/envs/anki/bin/python
+cachedir: .pytest_cache
+rootdir: /home/cleciobruno/Documentos/repositorios/estoque-facil/backend
+plugins: anyio-4.13.0
+collecting ... collected 15 items
+
+tests/test_api.py::test_crud_completo PASSED                             [  6%]
+tests/test_api.py::test_movimentacoes_e_historico PASSED                 [ 13%]
+tests/test_api.py::test_estoque_insuficiente_retorna_400 PASSED          [ 20%]
+tests/test_api.py::test_dados_invalidos_retornam_400 PASSED              [ 26%]
+tests/test_api.py::test_corpo_que_nao_e_json PASSED                      [ 33%]
+tests/test_api.py::test_produto_inexistente_retorna_404 PASSED           [ 40%]
+tests/test_models.py::test_produto_abstrato_nao_pode_ser_instanciado PASSED [ 46%]
+tests/test_models.py::test_heranca PASSED                                [ 53%]
+tests/test_models.py::test_encapsulamento_valida_preco_e_nome PASSED     [ 60%]
+tests/test_models.py::test_quantidade_nao_tem_setter PASSED              [ 66%]
+tests/test_models.py::test_polimorfismo_preco_final PASSED               [ 73%]
+tests/test_models.py::test_entrada_e_saida_geram_movimentacao PASSED     [ 80%]
+tests/test_models.py::test_saida_maior_que_estoque_gera_erro PASSED      [ 86%]
+tests/test_models.py::test_perecivel_vencido_nao_pode_sair PASSED        [ 93%]
+tests/test_models.py::test_fabrica_cria_subclasse_correta PASSED         [100%]
+
+============================== 15 passed in 0.03s ==============================

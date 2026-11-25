@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estoque Fácil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <h1 class="logo">📦 Estoque <span>Fácil</span></h1>
+      <p class="topo__descricao">Controle de produtos perecíveis e duráveis</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="resumo" aria-label="Resumo do estoque">
+      <article class="cartao-resumo">
+        <h2>Produtos</h2>
+        <p id="resumo-produtos">0</p>
+      </article>
+      <article class="cartao-resumo">
+        <h2>Itens em estoque</h2>
+        <p id="resumo-itens">0</p>
+      </article>
+      <article class="cartao-resumo">
+        <h2>Valor do estoque</h2>
+        <p id="resumo-valor">R$ 0,00</p>
+      </article>
+      <article class="cartao-resumo cartao-resumo--alerta">
+        <h2>Estoque baixo</h2>
+        <p id="resumo-baixo">0</p>
+      </article>
+    </section>
+
+    <div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+    <div class="layout">
+      <section class="painel">
+        <h2 id="titulo-form">Cadastrar produto</h2>
+        <form id="form-produto" novalidate>
+          <div class="campo">
+            <label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo">
+              <option value="perecivel">Perecível</option>
+              <option value="duravel">Durável</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Ex.: Leite integral 1L" autocomplete="off">
+            <small class="erro-campo" data-erro="nome"></small>
+          </div>
+
+          <div class="campo-duplo">
+            <div class="campo">
+              <label for="preco">Preço (R$)</label>
+              <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0,00">
+              <small class="erro-campo" data-erro="preco"></small>
+            </div>
+            <div class="campo" id="grupo-quantidade">
+              <label for="quantidade">Qtd. inicial</label>
+              <input type="number" id="quantidade" name="quantidade" min="0" step="1" value="0">
+              <small class="erro-campo" data-erro="quantidade"></small>
+            </div>
+          </div>
+
+          <div class="campo" id="grupo-validade">
+            <label for="validade">Validade</label>
+            <input type="date" id="validade" name="validade">
+            <small class="erro-campo" data-erro="validade"></small>
+          </div>
+
+          <div class="campo" id="grupo-garantia" hidden>
+            <label for="garantia">Garantia (meses)</label>
+            <input type="number" id="garantia" name="garantia_meses" min="0" step="1" value="12">
+            <small class="erro-campo" data-erro="garantia_meses"></small>
+          </div>
+
+          <div class="acoes-form">
+            <button type="submit" class="botao botao--primario" id="botao-salvar">Salvar</button>
+            <button type="button" class="botao botao--secundario" id="botao-cancelar" hidden>Cancelar edição</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="painel painel--lista">
+        <div class="lista__cabecalho">
+          <h2>Produtos cadastrados</h2>
+          <div class="filtros">
+            <input type="search" id="filtro-busca" placeholder="Buscar por nome..." aria-label="Buscar produto">
+            <select id="filtro-tipo" aria-label="Filtrar por tipo">
+              <option value="todos">Todos os tipos</option>
+              <option value="perecivel">Perecíveis</option>
+              <option value="duravel">Duráveis</option>
+            </select>
+            <label class="checkbox">
+              <input type="checkbox" id="filtro-baixo"> Só estoque baixo
+            </label>
+          </div>
+        </div>
+
+        <p id="carregando" class="carregando">Carregando produtos...</p>
+        <ul id="lista-produtos" class="lista-produtos"></ul>
+        <p id="lista-vazia" class="lista-vazia" hidden>Nenhum produto encontrado.</p>
+      </section>
+    </div>
+
+    <section class="painel" id="painel-historico" hidden>
+      <h2 id="titulo-historico">Histórico</h2>
+      <ul id="lista-historico" class="lista-historico"></ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Estoque Fácil • Clécio Bruno</p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

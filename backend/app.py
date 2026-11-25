@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
@@ -12,7 +13,7 @@ PASTA_BACKEND = Path(__file__).parent
 PASTA_FRONTEND = PASTA_BACKEND.parent / "frontend"
 
 
-def criar_app(caminho_banco=PASTA_BACKEND / "estoque.db"):
+def criar_app(caminho_banco=os.environ.get("DB_PATH", PASTA_BACKEND / "estoque.db")):
     app = Flask(__name__, static_folder=None)
 
     db = Database(caminho_banco)

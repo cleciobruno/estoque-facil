@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import date
 
 from .excecoes import EstoqueInsuficienteError, ValidacaoError
 from .movimentacao import Movimentacao
@@ -94,3 +95,76 @@ class Produto(ABC):
         return f"{self.nome} ({self.tipo}) - {self.quantidade} un."
 
 
+class ProdutoPerecivel(Produto):
+    DIAS_PARA_DESCONTO = 7
+    DESCONTO = 0.30
+
+    def __init__(self, nome, preco, validade, quantidade=0, id=None):
+        super().__init__(nome, preco, quantidade, id)
+        self.validade = validade
+
+    @property
+    def validade(self):
+        return self.__validade
+
+    @validade.setter
+    def validade(self, valor):
+        try:
+            self.__validade = valor if isinstance(valor, date) else date.fromisoformat(valor)
+        except (TypeError, ValueError):
+            raise ValidacaoError("Validade inválida. Use o formato AAAA-MM-DD.")
+
+    @property
+    def tipo(self):
+        return "perecivel"
+
+    def dias_para_vencer(self, hoje=None):
+        hoje = hoje or date.today()
+        return (self.validade - hoje).days
+
+    def esta_vencido(self, hoje=None):
+        return self.dias_para_vencer(hoje) < 0
+
+    def calcular_preco_final(self):
+        dias = self.dias_para_vencer()
+        if 0 <= dias <= self.DIAS_PARA_DESCONTO:
+            return self.preco * (1 - self.DESCONTO)
+        return self.preco
+
+    def saida(self, quantidade):
+        if self.esta_vencido():
+            raise ValidacaoError(f"'{self.nome}' está vencido e não pode ser vendido.")
+        return super().saida(quantidade)
+
+    def detalhes(self):
+        return {
+            "validade": self.validade.isoformat(),
+            "dias_para_vencer": self.dias_para_vencer(),
+            "vencido": self.esta_vencido(),
+        }
+
+
+class ProdutoDuravel(Produto):
+    def __init__(self, nome, preco, garantia_meses, quantidade=0, id=None):
+        super().__init__(nome, preco, quantidade, id)
+        self.garantia_meses = garantia_meses
+
+    @property
+    def garantia_meses(self):
+        return self.__garantia_meses
+
+    @garantia_meses.setter
+    def garantia_meses(self, valor):
+        if not isinstance(valor, int) or valor < 0:
+            raise ValidacaoError("A garantia deve ser um número inteiro de meses (0 ou mais).")
+        self.__garantia_meses = valor
+
+    @property
+    def tipo(self):
+        return "duravel"
+
+    def calcular_preco_final(self):
+        return self.preco
+
+    def detalhes(self):
+        return {"garantia_meses": self.garantia_meses}

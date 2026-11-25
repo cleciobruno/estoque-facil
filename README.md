@@ -93,11 +93,3 @@ Erros retornam JSON no formato `{ "erro": "mensagem" }` com status 400 (dados in
 
 - [Diagrama de classes](docs/diagrama-classes.md)
 - [Roteiro de testes](docs/roteiro-testes.md)
-
-## Integrantes
-
-| Nome | GitHub | Principais contribuições |
-|---|---|---|
-| Nome 1 | @usuario1 | |
-| Nome 2 | @usuario2 | |
-| Nome 3 | @usuario3 | |
